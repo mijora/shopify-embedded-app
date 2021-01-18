@@ -153,7 +153,7 @@ class AppController extends Controller
         } catch (ShopifyApiException $sae) {
             Log::debug('Unauthorized thingie');
 
-            return redirect()->route('shopify.install-link', request()->all());
+            return redirect()->route('install-link', request()->all());
         }
 
         $shipments = [];
@@ -171,7 +171,7 @@ class AppController extends Controller
             $shipment['admin_order_url'] = 'https://' . $shop->shop_origin . '/admin/orders/' . $order['id'];
             $url_params = [
                 'shop' => $shop->shop_origin,
-                'is_return' => $is_return,
+                'is_return' => $is_return?'1':'0',
             ];
 
             $url_params['hmac'] = createShopifyHMAC($url_params);
@@ -446,7 +446,7 @@ class AppController extends Controller
 
         $print_all_url_params = [
             'shop' => $shop->shop_origin,
-            'is_return' => $is_return,
+            'is_return' => $is_return?'1':'0',
         ];
 
         $print_all_url_params['hmac'] = createShopifyHMAC($print_all_url_params);
